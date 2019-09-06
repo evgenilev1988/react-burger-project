@@ -5,8 +5,7 @@ import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 import BackDrop from '../../UI/Backdrop/Backdrop';
 
-import Aux from '../../../hoc/Auxiliary';
-import Modal from '../../UI/Modal/Modal';
+import Aux from '../../../hoc/Auxiliary/Auxiliary';
 
 const sideDrawer = (props) => {
     var attachedClass = [classes.SideDrawer,classes.Closed];

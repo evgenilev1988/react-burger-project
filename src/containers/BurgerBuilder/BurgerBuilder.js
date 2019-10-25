@@ -96,8 +96,28 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinue() {
+        const order = {
+            ingredients: this.state.ingredients,
+            price: this.state.totalPrice,
+            customer: {
+                name: 'teeest',
+                address: {
+                    street: 'test',
+                    zipCode: 'asddassad',
+                    contry: 'US'
+                },
+                email: 'test@test.test'
+            },
+            deliveryMethod: 'fastest'
+        }
+
+        this.props.history.push({
+            pathname:'/checkout',
+            state:order
+        });
         //alert('You continue');
 
+        /*
         this.setState({
             loading: true
         })
@@ -129,7 +149,8 @@ class BurgerBuilder extends Component {
                     loading: false,
                     purchasing: false
                 })
-            });
+            });*/
+            
     }
 
     render() {

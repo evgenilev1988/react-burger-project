@@ -6,7 +6,7 @@ import BurgerIngridient from './BurgerIngridient/BurgerIngridient'
 import classes from './Burger.css';
 
 const burger = (props) => {
-    console.log(props)
+    console.log(props);
     
     var transfomedIngrediends = Object.keys(props.ingredients)
         .map(ingredientKey => {

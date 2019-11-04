@@ -38,7 +38,7 @@ class ContactData extends Component {
             deliveryMethod: contactDataHelper.orderFormElementDDLCreator(inputType.select, [
                 { value: 'fastest', displayValue: 'fastest' },
                 { value: 'slowest', displayValue: 'slowest' }
-            ], '', 'Delivery Method',{})
+            ], 'fastest', 'Delivery Method',{})
         },
         formIsValid: false,
         loading: false

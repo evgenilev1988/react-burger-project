@@ -2,17 +2,30 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
-import { createStore } from 'redux';
+import { createStore,combineReducers,applyMiddleware,compose } from 'redux';
+import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import redeucer from './store/redeucer';
+import totalPriceReducer from  './store/reducers/totalPriceReducer';
+import burgerBuilderReducer from './store/reducers/BurgerBuilder';
+import orderReducer from './store/reducers/order';
+
+const rootReducer = combineReducers({
+    ings:burgerBuilderReducer,
+    price:totalPriceReducer,
+    order:orderReducer
+})
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 
-const store = createStore(redeucer);
+const store = createStore(rootReducer,composeEnhancers(
+    applyMiddleware(thunk)
+));
 
 
 const app = (

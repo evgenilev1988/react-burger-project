@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import classes from './ContactData.css';
 
+import { connect } from 'react-redux';
+
 import Button from '../../../components/UI/Buttun/Button';
 
 import axios from '../../../axios-orders';
@@ -9,6 +11,9 @@ import Input from '../../../components/UI/Input/Input';
 
 import { contactDataHelper, inputType } from '../ContantData/ContactDataHelper';
 
+import withErrorHandler from '../../../hoc/withErrorHandling/withErrorHanding';
+import { Actions } from '../../../helpers/action';
+import * as orderActions from '../../../store/actions/order';
 
 
 class ContactData extends Component {
@@ -38,10 +43,9 @@ class ContactData extends Component {
             deliveryMethod: contactDataHelper.orderFormElementDDLCreator(inputType.select, [
                 { value: 'fastest', displayValue: 'fastest' },
                 { value: 'slowest', displayValue: 'slowest' }
-            ], 'fastest', 'Delivery Method',{})
+            ], 'fastest', 'Delivery Method', {})
         },
         formIsValid: false,
-        loading: false
     }
 
     checkValidity(value, rules) {
@@ -87,10 +91,6 @@ class ContactData extends Component {
     orderHandler(event) {
         event.preventDefault();
 
-        this.setState({
-            loading: true
-        })
-
         const formData = {};
         for (var form in this.state.orderForm) {
             formData[form] = this.state.orderForm[form].value;
@@ -101,16 +101,8 @@ class ContactData extends Component {
             price: this.props.totalPrice,
             orderData: formData
         }
-        // .json is obly for fire base!
-        axios.post('/orders.json', order)
-            .then(res => {
-                console.log(res);
-                this.setState({ loading: false });
-                this.props.history.push('/');
-            })
-            .catch(err => {
-                this.setState({ loading: false });
-            });
+
+        this.props.onOrderBurger(order);
     }
 
     render() {
@@ -141,7 +133,7 @@ class ContactData extends Component {
             <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
         </form>;
 
-        var render = this.state.loading ? (<Spinner />) : (form);
+        var render = this.props.loading ? (<Spinner />) : (form);
         return (<div className={classes.ContactData}>
             <h4>Enter Your Contact Data</h4>
             {render}
@@ -149,4 +141,18 @@ class ContactData extends Component {
     }
 }
 
-export default ContactData;
+const mapStateToProps = function (state) {
+    return {
+        ingredients: state.ings.ingredients,
+        totalPrice: state.price.totalPrice,
+        loading:state.order.loading
+    }
+}
+
+const mapDispatchToProps = function (dispatch) {
+    return {
+        onOrderBurger: (orderData) => { dispatch(orderActions.purchaseBurderStart(orderData)) }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));

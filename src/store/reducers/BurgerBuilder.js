@@ -1,24 +1,12 @@
 
-import { Actions } from '../helpers/action';
-
-const INGRIDIENT_PRICES = {
-    salad: 0.5,
-    cheese: 0.4,
-    meat: 1.3,
-    bacon: 0.7
-}
+import { Actions } from '../../helpers/action';
 
 const initialState = {
-    ingredients: {
-        salad: 0,
-        cheese: 0,
-        meat: 0,
-        bacon: 0
-    },
-    totalPrice: 4
+    ingredients: null,
+    error: false
 }
 
-const reducer = function (state = initialState, action) {
+const burgerBuilderReducer = function (state = initialState, action) {
     switch (action.type) {
         case Actions.ADDINGRIDIENTS:
             var ingredients = { ...state.ingredients };
@@ -27,7 +15,6 @@ const reducer = function (state = initialState, action) {
             return {
                 ...state,
                 ingredients: ingredients,
-                totalPrice:state.totalPrice + INGRIDIENT_PRICES[action.ingedientName]
             };
         case Actions.REMOVEINGRIDIENTS:
             var ingredients = { ...state.ingredients };
@@ -35,12 +22,22 @@ const reducer = function (state = initialState, action) {
 
             return {
                 ...state,
-                ingredients: ingredients,
-                totalPrice:state.totalPrice - INGRIDIENT_PRICES[action.ingedientName]
+                ingredients: ingredients
+            };
+        case Actions.SETINGREDIENTS:
+            return {
+                ...state,
+                ingredients: action.ingridients,
+                error:false
+            };
+        case Actions.FETCHINGREDIENTSFAILED:
+            return {
+                ...state,
+                error: true
             };
         default:
             return state;
     }
 }
 
-export default reducer;
+export default burgerBuilderReducer;

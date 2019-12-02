@@ -10,39 +10,21 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandling from '../../hoc/withErrorHandling/withErrorHanding';
 import axios from '../../axios-orders';
 
-import { Actions } from '../../helpers/action';
+import { Actions,TotalPriceReducer } from '../../helpers/action';
 import {connect} from 'react-redux'
 
-
+import * as burgerBuilderActions from '../../store/actions/index';
 
 class BurgerBuilder extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            purchasing: false,
-            loading: false,
-            error: false
+            purchasing: false
         };
     }
 
     componentDidMount() {
-        /*this.componentDidMount(this.props);
-        
-        axios.get('/ingredients.json').then(res => { 
-            if (res.isAxiosError) {
-                this.setState({
-                    error: true
-                })
-            }
-            this.setState({
-                ingredients: res.data
-            })
-        })
-            .catch(error => {
-                this.setState({
-                    error: true
-                })
-            })*/
+        this.props.oninitIngredients();
     }
 
     updatePurchaseState() {
@@ -68,24 +50,15 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinue() {
-        
-        const queryParams = [];
-        for (var i in this.state.ingredients) {
-            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
-        }
-        queryParams.push('price=' + this.state.totalPrice);
-        const queryString = queryParams.join('&');
+        this.props.onInitPurchase();
         this.props.history.push({
-            pathname:'/checkout',
-            search: '?' + queryString
+            pathname:'/checkout'
         });
     }
 
     render() {
         var orderSummary = null;
-        if (this.state.loading)
-            orderSummary = <Spinner />;
-        var burger = this.state.error ? <p>aaa</p> : <Spinner />;
+        var burger = this.props.error ? <p>Ingredients cannot be loaded!</p> : <Spinner />;
         if (this.props.ings) {
             orderSummary = (<OrderSummary
                 ingredients={this.props.ings}
@@ -101,8 +74,14 @@ class BurgerBuilder extends Component {
                         ordered={this.purchaseHander.bind(this)}
                         purchasable={this.updatePurchaseState()}
                         price={this.props.totalPrice}
-                        ingredientRemoved={(ings) => this.props.onRemoveIngridients(ings) }
-                        ingredientAdded={(ings) => this.props.onAddIngredients(ings)} />
+                        ingredientRemoved={(ings) => {
+                            this.props.onRemoveIngridients(ings)
+                            this.props.onRemovePrice(ings)
+                        }}
+                        ingredientAdded={(ings) => {
+                            this.props.onAddIngredients(ings)
+                            this.props.onAddPrice(ings)
+                        }} />
                 </Aux>
             );
         }
@@ -120,19 +99,29 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = function(state){
     return {
-        ings: state.ingredients,
-        totalPrice: state.totalPrice
+        ings: state.ings.ingredients,
+        totalPrice: state.price.totalPrice,
+        error:state.ings.error
     }
 }
 
 const mapdispatchToProps = function(dispatch){
     return {
         onAddIngredients:function(ingedientName){
-            return dispatch({type:Actions.ADDINGRIDIENTS,ingedientName:ingedientName})
+            return dispatch(burgerBuilderActions.addIngredient(ingedientName))
         },
         onRemoveIngridients:function(ingedientName){
-            return dispatch({type:Actions.REMOVEINGRIDIENTS,ingedientName:ingedientName})
-        }
+            return dispatch(burgerBuilderActions.removeIngredient(ingedientName))
+        },
+        onAddPrice:function(ingedientName){
+            return dispatch({type:TotalPriceReducer.ADDPRICE,ingedientName:ingedientName})
+        },
+        onRemovePrice:function(ingedientName){
+            return dispatch({type:TotalPriceReducer.REDUCEPRICE,ingedientName:ingedientName})
+        },
+        oninitIngredients:function(){return dispatch(burgerBuilderActions.initIngredients())},
+        onInitPurchase:function(){return dispatch(burgerBuilderActions.purchaseInit())}
+
     };
 }
 

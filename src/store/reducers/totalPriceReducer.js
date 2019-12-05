@@ -11,28 +11,33 @@ var initialState = {
     totalPrice: 4
 }
 
+const addPrice = (state, action) => {
+    return {
+        ...state,
+        totalPrice: state.totalPrice + INGRIDIENT_PRICES[action.ingedientName]
+    }
+}
+
+const reducePrice = (state, action) => {
+    return {
+        ...state,
+        totalPrice: state.totalPrice - INGRIDIENT_PRICES[action.ingedientName]
+    }
+}
+
+const resetPrice = (state, action) => {
+    return {
+        ...state,
+        totalPrice: 4
+    }
+}
+
 var totalPriceReducer = function (state = initialState, action) {
     switch (action.type) {
-        case TotalPriceReducer.ADDPRICE: {
-            return {
-                ...state,
-                totalPrice: state.totalPrice + INGRIDIENT_PRICES[action.ingedientName]
-            }
-        }
-        case TotalPriceReducer.REDUCEPRICE: {
-            return {
-                ...state,
-                totalPrice: state.totalPrice - INGRIDIENT_PRICES[action.ingedientName]
-            }
-        }
-        case TotalPriceReducer.RESETPRICE:{
-            return {
-                ...state,
-                totalPrice: 4
-            }
-        }
-        default:
-            return state;
+        case TotalPriceReducer.ADDPRICE: return addPrice(state, action)
+        case TotalPriceReducer.REDUCEPRICE: return reducePrice(state, action)
+        case TotalPriceReducer.RESETPRICE: return resetPrice(state, action)
+        default: return state;
     }
 }
 

@@ -15,3 +15,14 @@ export const TotalPriceReducer = {
     RESETPRICE:'RESETPRICE'
 }
 
+export const OrdersActions = {
+    FETCH_ORDERS:'FETCH_ORDERS',
+    LOADING_ORDERS:'LOADING_ORDERS',
+    ERROR_ORDERS:'ERROR_ORDERS'
+}
+
+export const authentication = {
+    AUTH_START:'AUTH_START',
+    AUTH_SUCCESS:'AUTH_SUCCESS',
+    AUTH_FAILED:'AUTH_FAILED'
+}

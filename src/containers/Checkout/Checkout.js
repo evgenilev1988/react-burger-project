@@ -5,10 +5,6 @@ import { connect } from 'react-redux';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContantData/ContactData';
-import * as actions from '../../store/actions/index';
-import { TotalPriceReducer } from '../../helpers/action';
-
-import { priceUpdate } from '../../store/actions/totalPrice';
 
 class Checkout extends Component {
     onCheckoutCanceled() {
@@ -23,10 +19,6 @@ class Checkout extends Component {
         let summary = <Redirect to="/" />;
 
         if (this.props.ings) {
-
-            if (this.props.purchased) {
-                this.props.onPurchaseComplete();
-            }
             const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
 
             summary = (
@@ -52,12 +44,4 @@ const mapStateToProps = function (state) {
     }
 }
 
-const mapDispatchToProps = function (dispatch) {
-    return {
-        onPurchaseComplete: () => {dispatch(priceUpdate())}
-    }
-}
-
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
+export default connect(mapStateToProps)(Checkout);

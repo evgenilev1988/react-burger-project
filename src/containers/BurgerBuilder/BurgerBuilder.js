@@ -10,10 +10,9 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandling from '../../hoc/withErrorHandling/withErrorHanding';
 import axios from '../../axios-orders';
 
-import { Actions,TotalPriceReducer } from '../../helpers/action';
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
 
-import * as burgerBuilderActions from '../../store/actions/index';
+import * as Actions from '../../store/actions/index';
 
 class BurgerBuilder extends Component {
     constructor(props) {
@@ -107,23 +106,13 @@ const mapStateToProps = function(state){
 
 const mapdispatchToProps = function(dispatch){
     return {
-        onAddIngredients:function(ingedientName){
-            return dispatch(burgerBuilderActions.addIngredient(ingedientName))
-        },
-        onRemoveIngridients:function(ingedientName){
-            return dispatch(burgerBuilderActions.removeIngredient(ingedientName))
-        },
-        onAddPrice:function(ingedientName){
-            return dispatch({type:TotalPriceReducer.ADDPRICE,ingedientName:ingedientName})
-        },
-        onRemovePrice:function(ingedientName){
-            return dispatch({type:TotalPriceReducer.REDUCEPRICE,ingedientName:ingedientName})
-        },
-        oninitIngredients:function(){return dispatch(burgerBuilderActions.initIngredients())},
-        onInitPurchase:function(){return dispatch(burgerBuilderActions.purchaseInit())}
-
+        onAddIngredients:function(ingedientName){return dispatch(Actions.addIngredient(ingedientName))},
+        onRemoveIngridients:function(ingedientName){return dispatch(Actions.removeIngredient(ingedientName))},
+        onAddPrice:function(ingedientName){return dispatch(Actions.addPrice(ingedientName))},
+        onRemovePrice:function(ingedientName){return dispatch(Actions.reducrPrice(ingedientName))},
+        oninitIngredients:function(){return dispatch(Actions.initIngredients())},
+        onInitPurchase:function(){return dispatch(Actions.purchaseInit())}
     };
 }
-
 
 export default connect(mapStateToProps,mapdispatchToProps)(withErrorHandling(BurgerBuilder, axios));

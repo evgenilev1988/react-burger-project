@@ -13,11 +13,13 @@ import * as serviceWorker from './serviceWorker';
 import totalPriceReducer from  './store/reducers/totalPriceReducer';
 import burgerBuilderReducer from './store/reducers/BurgerBuilder';
 import orderReducer from './store/reducers/order';
+import ordersReducer from  './store/reducers/orders';
 
 const rootReducer = combineReducers({
     ings:burgerBuilderReducer,
     price:totalPriceReducer,
-    order:orderReducer
+    order:orderReducer,
+    orders:ordersReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

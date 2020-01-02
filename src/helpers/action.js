@@ -26,3 +26,7 @@ export const authentication = {
     AUTH_SUCCESS:'AUTH_SUCCESS',
     AUTH_FAILED:'AUTH_FAILED'
 }
+
+export const Token = {
+    STORE_TOKEN:'STORE_TOKEN'
+}

@@ -14,12 +14,14 @@ import totalPriceReducer from  './store/reducers/totalPriceReducer';
 import burgerBuilderReducer from './store/reducers/BurgerBuilder';
 import orderReducer from './store/reducers/order';
 import ordersReducer from  './store/reducers/orders';
+import authReducer from './store/reducers/auth';
 
 const rootReducer = combineReducers({
     ings:burgerBuilderReducer,
     price:totalPriceReducer,
     order:orderReducer,
-    orders:ordersReducer
+    orders:ordersReducer,
+    auth:authReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

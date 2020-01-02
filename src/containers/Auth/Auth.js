@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { contactDataHelper, inputType } from '../Checkout/ContantData/ContactDataHelper';
 import * as actions from '../../store/actions/index';
 
-import Spinner from  '../../components/UI/Spinner/Spinner';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Auth extends Component {
     constructor(props) {
@@ -77,7 +77,7 @@ class Auth extends Component {
 
     submitHandler = (event) => {
         event.preventDefault();
-        this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value,this.state.isSignUp);
+        this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value, this.state.isSignUp);
     }
 
     render() {
@@ -105,17 +105,24 @@ class Auth extends Component {
             );
         })
 
-        if(this.props.loading)
-            form = <Spinner/>;
+        if (this.props.loading)
+            form = <Spinner />;
+
+        let errorMessage = null;
+        if (this.props.error !== null) {
+            // Firebase returns the error.message property, it can be manually crafted as we want
+            errorMessage = (<p>{this.props.error.message}</p>);
+        }
 
         return (
             <div className={classes.Auth}>
+                {errorMessage}
                 <form onSubmit={this.submitHandler}>
                     {form}
                     <Button btnType="Success">Submit</Button>
                 </form>
-                <Button 
-                    btnType="Danger" 
+                <Button
+                    btnType="Danger"
                     clicked={this.switchAuthHandler.bind(this)}>SWITCH TO {this.state.isSignUp ? 'SIGNIN' : 'SIGNUP'}</Button>
             </div>
         );
@@ -124,13 +131,14 @@ class Auth extends Component {
 
 const mapStateToProps = function (state) {
     return {
-        loading:state.auth.loading
+        loading: state.auth.loading,
+        error: state.auth.error
     }
 }
 
 const mapDispatchToProps = function (dispatch) {
     return {
-        onAuth: (email, password,isSignUp) => { dispatch(actions.auth(email, password,isSignUp)) }
+        onAuth: (email, password, isSignUp) => { dispatch(actions.auth(email, password, isSignUp)) }
     }
 }
 

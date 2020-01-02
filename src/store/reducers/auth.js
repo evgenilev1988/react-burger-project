@@ -33,6 +33,13 @@ const authFailed = (state,action) =>{
     }
 }
 
+const authlogout = (state,action)=>{
+    return{
+        ...state,
+        token:null,
+        userId:null
+    }
+}
 
 
 const authReducer = function (state = initialState, action) {
@@ -40,6 +47,7 @@ const authReducer = function (state = initialState, action) {
         case actions.authentication.AUTH_START: return authStart(state,action);
         case actions.authentication.AUTH_SUCCESS : return authSuccess(state,action);
         case actions.authentication.AUTH_FAILED : return authFailed(state,action);
+        case actions.authentication.AUTH_LOGOUT:return authlogout(state,action);
         default: return state;
     }
 }

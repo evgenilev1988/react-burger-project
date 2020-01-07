@@ -8,6 +8,7 @@ import Checkout from './containers/Checkout/Checkout';
 import Unknown from './components/404/404';
 import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth';
+import Logout from './containers/Auth/Logout/Logout';
 
 class App extends Component{
   
@@ -19,6 +20,7 @@ class App extends Component{
             <Route path="/auth" component={Auth} />
             <Route path="/checkout" component={Checkout} />
             <Route path="/orders" component={Orders} />
+            <Route path="/logout" component={Logout} />
             <Route path="/" exact component={BurgerBuilder} />
             <Route path="/404" exact component={Unknown} />
             <Redirect from="/" to="/404"/>

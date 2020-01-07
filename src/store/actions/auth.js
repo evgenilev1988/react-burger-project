@@ -28,8 +28,6 @@ export const logout = () =>{
     }
 }
 
-
-
 export const checkAuthTimeout = (exparationTime) => {
     return dispatch => {
         setTimeout(() => {

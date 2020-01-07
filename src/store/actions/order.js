@@ -23,11 +23,11 @@ export const purchaseBurgerInProgress = () => {
 };
 
 
-export const purchaseBurderStart = (orderData) => {
+export const purchaseBurderStart = (orderData,token) => {
     return dispatch => {
         dispatch(purchaseBurgerInProgress());
 
-        axios.post('/orders.json', orderData)
+        axios.post('/orders.json?auth=' + token, orderData)
             .then(res => {
                 dispatch(purchaseBurgerSucess(res.data.name,orderData));
             })

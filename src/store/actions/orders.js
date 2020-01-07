@@ -22,11 +22,13 @@ export const loadingOrders = () => {
     }
 }
 
-export const fetchAllOrders = (token) => {
+export const fetchAllOrders = (token,userId) => {
     return dispatch => {
         dispatch(loadingOrders());
         
-        axios.get('/orders.json?auth=' + token)
+        const queryParams = 'auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
+
+        axios.get('/orders.json?'+queryParams)
             .then(res => {
                 var orders = Object.keys(res.data).map((key, index, arr) => {
                     return { ...res.data[key], id: key };

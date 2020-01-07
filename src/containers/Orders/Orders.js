@@ -12,7 +12,7 @@ import * as ordersActions from '../../store/actions/orders';
 
 class Orders extends Component {
     componentDidMount() {
-        this.props.onOrdersFetch(this.props.token);
+        this.props.onOrdersFetch(this.props.token,this.props.userId);
     }
 
     render() {
@@ -34,13 +34,14 @@ const mapStateToProps = function (state) {
     return {
         orders: state.orders.orders,
         loading: state.orders.loading,
-        token:state.auth.token
+        token:state.auth.token,
+        userId:state.auth.userId
     }
 }
 
 const mapDispatchToProps = function (dispatch) {
     return {
-        onOrdersFetch: (token) => { dispatch(ordersActions.fetchAllOrders(token)) }
+        onOrdersFetch: (token,userId) => { dispatch(ordersActions.fetchAllOrders(token,userId)) }
     }
 };
 

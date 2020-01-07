@@ -3,6 +3,8 @@ import classes from './Auth.css';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Buttun/Button';
 
+import {Redirect} from 'react-router-dom';
+
 import { connect } from 'react-redux';
 
 import { contactDataHelper, inputType } from '../Checkout/ContantData/ContactDataHelper';
@@ -68,6 +70,12 @@ class Auth extends Component {
         });
     }
 
+    componentDidMount(){
+        if(!this.props.BuildingBurder && this.props.authRedirectPath !== '/'){
+            this.props.onSetAuthRedirectPath();
+        }
+    }
+
     switchAuthHandler = () => {
         this.setState({
             ...this.state,
@@ -114,8 +122,14 @@ class Auth extends Component {
             errorMessage = (<p>{this.props.error.message}</p>);
         }
 
+        let authRedirect = null;
+        if(this.props.isAuthenticated){
+            authRedirect = <Redirect to={this.props.authRedirectPath}/>;
+        }
+
         return (
             <div className={classes.Auth}>
+                {authRedirect}
                 {errorMessage}
                 <form onSubmit={this.submitHandler}>
                     {form}
@@ -132,13 +146,17 @@ class Auth extends Component {
 const mapStateToProps = function (state) {
     return {
         loading: state.auth.loading,
-        error: state.auth.error
+        error: state.auth.error,
+        isAuthenticated: state.auth.token !== null,
+        BuildingBurder: state.ings.building,
+        authRedirectPath:state.auth.authRedirectPath
     }
 }
 
 const mapDispatchToProps = function (dispatch) {
     return {
-        onAuth: (email, password, isSignUp) => { dispatch(actions.auth(email, password, isSignUp)) }
+        onAuth: (email, password, isSignUp) => { dispatch(actions.auth(email, password, isSignUp)) },
+        onSetAuthRedirectPath:(path)=>{dispatch(actions.setAuthRedirectPath('/'))}
     }
 }
 

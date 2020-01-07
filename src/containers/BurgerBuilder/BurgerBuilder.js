@@ -10,7 +10,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandling from '../../hoc/withErrorHandling/withErrorHanding';
 import axios from '../../axios-orders';
 
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import * as Actions from '../../store/actions/index';
 
@@ -37,9 +37,15 @@ class BurgerBuilder extends Component {
     }
 
     purchaseHander() {
-        this.setState({
-            purchasing: true
-        });
+        if (this.props.isAuthenticated) {
+            this.setState({
+                purchasing: true
+            });
+        }
+        else{
+            this.props.onSetRedirectPath('/checkout');
+            this.props.history.push({pathname: '/auth'});
+        }
     }
 
     purchaseCancel() {
@@ -51,7 +57,7 @@ class BurgerBuilder extends Component {
     purchaseContinue() {
         this.props.onInitPurchase();
         this.props.history.push({
-            pathname:'/checkout'
+            pathname: '/checkout'
         });
     }
 
@@ -73,6 +79,7 @@ class BurgerBuilder extends Component {
                         ordered={this.purchaseHander.bind(this)}
                         purchasable={this.updatePurchaseState()}
                         price={this.props.totalPrice}
+                        isAuth={this.props.isAuthenticated}
                         ingredientRemoved={(ings) => {
                             this.props.onRemoveIngridients(ings)
                             this.props.onRemovePrice(ings)
@@ -96,23 +103,25 @@ class BurgerBuilder extends Component {
     }
 }
 
-const mapStateToProps = function(state){
+const mapStateToProps = function (state) {
     return {
         ings: state.ings.ingredients,
         totalPrice: state.price.totalPrice,
-        error:state.ings.error
+        error: state.ings.error,
+        isAuthenticated: state.auth.token !== null
     }
 }
 
-const mapdispatchToProps = function(dispatch){
+const mapdispatchToProps = function (dispatch) {
     return {
-        onAddIngredients:function(ingedientName){return dispatch(Actions.addIngredient(ingedientName))},
-        onRemoveIngridients:function(ingedientName){return dispatch(Actions.removeIngredient(ingedientName))},
-        onAddPrice:function(ingedientName){return dispatch(Actions.addPrice(ingedientName))},
-        onRemovePrice:function(ingedientName){return dispatch(Actions.reducrPrice(ingedientName))},
-        oninitIngredients:function(){return dispatch(Actions.initIngredients())},
-        onInitPurchase:function(){return dispatch(Actions.purchaseInit())}
+        onAddIngredients: function (ingedientName) { return dispatch(Actions.addIngredient(ingedientName)) },
+        onRemoveIngridients: function (ingedientName) { return dispatch(Actions.removeIngredient(ingedientName)) },
+        onSetRedirectPath:function(path){return dispatch(Actions.setAuthRedirectPath(path))},
+        onAddPrice: function (ingedientName) { return dispatch(Actions.addPrice(ingedientName)) },
+        onRemovePrice: function (ingedientName) { return dispatch(Actions.reducrPrice(ingedientName)) },
+        oninitIngredients: function () { return dispatch(Actions.initIngredients()) },
+        onInitPurchase: function () { return dispatch(Actions.purchaseInit()) }
     };
 }
 
-export default connect(mapStateToProps,mapdispatchToProps)(withErrorHandling(BurgerBuilder, axios));
+export default connect(mapStateToProps, mapdispatchToProps)(withErrorHandling(BurgerBuilder, axios));

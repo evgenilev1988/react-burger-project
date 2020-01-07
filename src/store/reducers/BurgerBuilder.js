@@ -3,7 +3,8 @@ import { Actions } from '../../helpers/action';
 
 const initialState = {
     ingredients: null,
-    error: false
+    error: false,
+    building: false
 }
 
 const addIngredient = (state, action) => {
@@ -13,6 +14,7 @@ const addIngredient = (state, action) => {
     return {
         ...state,
         ingredients: ingredients,
+        building: true
     };
 }
 
@@ -22,7 +24,8 @@ const removeIngridients = (state, action) => {
 
     return {
         ...state,
-        ingredients: ingredients
+        ingredients: ingredients,
+        building: true
     };
 }
 
@@ -30,7 +33,8 @@ const setIngredients = (state,action)=>{
     return {
         ...state,
         ingredients: action.ingridients,
-        error: false
+        error: false,
+        building: false
     };
 }
 

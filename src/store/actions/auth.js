@@ -7,6 +7,13 @@ export const authStart = () =>{
     }
 }
 
+export const setAuthRedirectPath = (path) =>{
+    return{
+        type:actions.authentication.SET_AUTH_REDIRECT_PATH,
+        path:path
+    }
+}
+
 export const authSuccess = (idToken,userId) =>{
     return{
         type:actions.authentication.AUTH_SUCCESS,

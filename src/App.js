@@ -24,9 +24,9 @@ class App extends Component{
         <Layout>
           <Switch>
             <Route path="/auth" component={Auth} />
-            <Route path="/checkout" component={Checkout} />
-            <Route path="/orders" component={Orders} />
-            <Route path="/logout" component={Logout} />
+            {this.props.isAuthenticated ? <Route path="/checkout" component={Checkout} /> : null}
+            {this.props.isAuthenticated ? <Route path="/orders" component={Orders} /> : null}
+            {this.props.isAuthenticated ? <Route path="/logout" component={Logout} /> : null}
             <Route path="/" exact component={BurgerBuilder} />
             <Route path="/404" exact component={Unknown} />
             <Redirect from="/" to="/404"/>
@@ -38,10 +38,16 @@ class App extends Component{
   
 }
 
+const mapStateToProps = state =>{
+  return{
+    isAuthenticated: state.auth.token !== null
+  }
+}
+
 const mapDispatchToProps = dispatch =>{
   return{
     onTryAutoSignUp:() => dispatch(actions.authCheckState())
   }
 }
 
-export default withRouter(connect(null,mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(App));

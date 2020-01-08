@@ -14,6 +14,7 @@ import { contactDataHelper, inputType } from '../ContantData/ContactDataHelper';
 import withErrorHandler from '../../../hoc/withErrorHandling/withErrorHanding';
 import * as orderActions from '../../../store/actions/order';
 
+import {checkValidity} from '../../../shared/utility';
 
 class ContactData extends Component {
     state = {
@@ -47,28 +48,11 @@ class ContactData extends Component {
         formIsValid: false,
     }
 
-    checkValidity(value, rules) {
-        var isValid = true;
-
-
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid;
-        }
-        if (rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid;
-        }
-        return isValid;
-    }
-
     onChangeHandler(event, inputIdentifier) {
         var updatedOrderForm = { ...this.state.orderForm };
         var updatedOrderFormElement = { ...updatedOrderForm[inputIdentifier] };
         updatedOrderFormElement.value = event.target.value;
-        updatedOrderFormElement.valid = this.checkValidity(event.target.value, updatedOrderFormElement.validation);
+        updatedOrderFormElement.valid = checkValidity(event.target.value, updatedOrderFormElement.validation);
         updatedOrderFormElement.touched = true;
         updatedOrderForm[inputIdentifier] = updatedOrderFormElement;
 
@@ -79,8 +63,6 @@ class ContactData extends Component {
                 break;
             }
         }
-        console.log(formIsValid);
-
         this.setState({
             orderForm: updatedOrderForm,
             formIsValid: formIsValid

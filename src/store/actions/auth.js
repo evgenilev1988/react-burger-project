@@ -31,7 +31,6 @@ export const authFailed = (error) =>{
 
 export const authCheckState = () => {
     return dispatch =>{
-        debugger;
         const token = localStorage.getItem('token');
         if(!token){
             dispatch(logout());

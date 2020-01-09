@@ -24,7 +24,7 @@ class Auth extends Component {
                     isEmail: true,
                     minLength: 2
                 }, false, false),
-                password: contactDataHelper.orderFormElementTextCreator(inputType.input, 'password', 'password', '', 'E-mail', {
+                password: contactDataHelper.orderFormElementTextCreator(inputType.input, 'password', 'password', '', 'Password', {
                     required: true,
                     minLength: 6
                 }, false, false)

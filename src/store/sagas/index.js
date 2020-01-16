@@ -1,4 +1,4 @@
-import { takeEvery, all } from 'redux-saga/effects';
+import { takeEvery, all,takeLatest } from 'redux-saga/effects';
 
 import * as actionTypes from '../../helpers/action';
 import { logoutSaga, checkAuthTimeoutSaga, authUserSaga, authCheckStateSaga } from './auth';
@@ -24,5 +24,5 @@ export function* whatOrdersBuilder() {
 }
 
 export function* whatOrderBuilder() {
-    yield takeEvery(actionTypes.Actions.PURCHASE_BURGER_START, purchaseBurderStartSaga);
+    yield takeLatest(actionTypes.Actions.PURCHASE_BURGER_START, purchaseBurderStartSaga);
 }

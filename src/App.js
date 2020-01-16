@@ -9,7 +9,6 @@ import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder'
 import Unknown from './components/404/404';
 import Logout from './containers/Auth/Logout/Logout';
 import asyncComponent from './hoc/asyncComponent/asyncComponent';
-import Aux from './hoc/Auxiliary/Auxiliary';
 
 const asyncCheckout = asyncComponent(() => {
   return import('./containers/Checkout/Checkout');

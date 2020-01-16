@@ -1,6 +1,5 @@
 import * as actions from '../../helpers/action';
-import * as totalPrice from './totalPrice';
-import axios from '../../axios-orders';
+
 
 export const addIngredient = (ingridientName) => {
     return {
@@ -30,13 +29,7 @@ export const featchIngredientsFailed = (ing) => {
 }
 
 export const initIngredients = () => {
-    return dispatch => {
-        axios.get('/ingredients.json').then(res => {
-            // Using the totlaPriceActions for reseting the price during init
-            dispatch(totalPrice.priceInit());
-            dispatch(setIngredients(res.data))
-        }).catch(error => {
-            dispatch(featchIngredientsFailed())
-        });
-    };
+    return {
+        type:actions.Actions.SET_INIT_INGREDIENTS
+    }
 }

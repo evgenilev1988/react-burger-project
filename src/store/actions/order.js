@@ -1,5 +1,4 @@
 import * as actions from '../../helpers/action';
-import axios from '../../axios-orders';
 
 export const purchaseBurgerSucess = (id, orderdata) => {
     return {
@@ -17,6 +16,7 @@ export const purchaseBurgerFailed = (error) => {
 };
 
 export const purchaseBurgerInProgress = () => {
+    debugger;
     return {
         type: actions.Actions.PURCASE_BURGER_INPROGRESS
     }
@@ -24,20 +24,16 @@ export const purchaseBurgerInProgress = () => {
 
 
 export const purchaseBurderStart = (orderData,token) => {
-    return dispatch => {
-        dispatch(purchaseBurgerInProgress());
-
-        axios.post('/orders.json?auth=' + token, orderData)
-            .then(res => {
-                dispatch(purchaseBurgerSucess(res.data.name,orderData));
-            })
-            .catch(err => {
-                dispatch(purchaseBurgerFailed(err));
-            });
+    debugger;
+    return{
+        type:actions.Actions.PURCHASE_BURGER_START,
+        orderData:orderData,
+        token:token
     }
 }
 
 export const purchaseInit = ()=>{
+    debugger;
     return {
         type:actions.Actions.PURACHASE_INIT
     }

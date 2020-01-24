@@ -24,7 +24,6 @@ describe('<Navigation Items/>',function(){
     });
 
     it('Should render three navigation with logout elements if authorized',function(){
-        debugger;
         wrapper.setProps({isAuthenticated:true});
         expect(wrapper.contains(<NavigationItem link="/logout">Logout</NavigationItem>)).toEqual(true);
     });

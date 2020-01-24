@@ -5,7 +5,6 @@ import axios from '../../axios-orders';
 
 
 export function* purchaseBurderStartSaga(action) {
-    debugger;
     yield put(actions.purchaseBurgerInProgress());
 
     try{

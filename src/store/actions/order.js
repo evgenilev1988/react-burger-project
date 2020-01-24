@@ -16,7 +16,6 @@ export const purchaseBurgerFailed = (error) => {
 };
 
 export const purchaseBurgerInProgress = () => {
-    debugger;
     return {
         type: actions.Actions.PURCASE_BURGER_INPROGRESS
     }
@@ -24,7 +23,6 @@ export const purchaseBurgerInProgress = () => {
 
 
 export const purchaseBurderStart = (orderData,token) => {
-    debugger;
     return{
         type:actions.Actions.PURCHASE_BURGER_START,
         orderData:orderData,
@@ -33,7 +31,6 @@ export const purchaseBurderStart = (orderData,token) => {
 }
 
 export const purchaseInit = ()=>{
-    debugger;
     return {
         type:actions.Actions.PURACHASE_INIT
     }
